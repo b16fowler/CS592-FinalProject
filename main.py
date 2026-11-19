@@ -5,24 +5,29 @@
 #####################################################
 
 import sympy as sp
+import gui
 from sympy import *
+from nicegui import ui
+
 x = symbols('x')
 init_printing(use_unicode=True)
 
 def generate_polynomial():
-    # Generate polynomial using predetermined
     import random as rng
-    # rng.seed(33)
-    n = 6; k = 3
-    # TODO: Change rng secret range
-    s = rng.randint(999, 10000)
+    # Number of shares being generated
+    n = 6
+    # Minimum number of shares needed to reconstruct secret
+    k = 3
+
+    # Generate 128 bit random secret
+    s_binary = f"{rng.getrandbits(128):0{128}b}"
+    s = int(s_binary, 2)
 
     # Generate random secret and k - 1 integers to create polynomial
     polynomial = s
     # Starting at 1 because it makes exponents easier
-
     for i in range(1, k):
-        # TODO: Change coefficient rng range
+        # TODO: Change coefficient rng range ?
         # Generate random number r as coefficient
         r = rng.randint(85, 200)
         # Append to polynomial
@@ -42,7 +47,7 @@ def generate_polynomial():
 def retrieve_secret(shares):
     # Reconstruct secret using k shares
 
-    # Fix shares to match Wiki example for testing
+    # TODO: Fix shares to match Wiki example for testing
     (x1, y1) = (2, 1942); (x2, y2) = (4, 3402); (x3, y3) = (5, 4414)
 
     # Using (x1, y1), (x2, y2) and (x3, y3) for Lagrange basis polynomials
@@ -56,14 +61,21 @@ def retrieve_secret(shares):
 
     # x^0 coefficient is the secret
     return fx.coeff(x, 0)
-    
+
+def encrypt():
+    pass
+
+def decrypt():
+    pass
     
 def main():
 
-    shares = generate_polynomial()
-    secret = retrieve_secret(shares)
-    sp.pprint(secret)
+    # GUI
+    gui.gui()
+
+    # shares = generate_polynomial()
+    # secret = retrieve_secret(shares)
+    # sp.pprint(secret)
 
 
-if __name__ == "__main__":
-    main()
+main()
