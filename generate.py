@@ -41,7 +41,7 @@ def generate_polynomial(n, k):
 def retrieve_secret(shares):
     # Reconstruct secret using k shares
 
-    # TODO: Fix shares to match Wiki example for testing
+    # TODO: Remove fixed shares from  Wiki example
     (x1, y1) = (2, 1942); (x2, y2) = (4, 3402); (x3, y3) = (5, 4414)
 
     # Using (x1, y1), (x2, y2) and (x3, y3) for Lagrange basis polynomials
