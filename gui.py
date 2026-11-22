@@ -23,19 +23,29 @@ def gui():
 
         # Show shares in markdown
         for i in range(len(shares)):
-            share = f"**Share #{i + 1}**\n\n{shares[i][0]}, {shares[i][1]}"
+            share = f"**Share #{i + 1}**\n\n({shares[i][0]}, {shares[i][1]})"
             ui.markdown(content=share)
 
+    # ui for entering share info to reconstruct secret
     def reconstruct():
-        pass
-
+        # Create entry box for each k
+        for i in range(len(k_input.value)):
+            with ui.splitter() as splitter:
+                with splitter.before:
+                    ui.number(label=f"**Share #{i + 1}:** Enter x value")
+                with splitter.after:
+                    ui.number(label=f"Enter y value")
 
     # Heading
     ui.label("Shamir Secret Sharing Key Generator")
 
     # Input boxes for n and k
-    n_input = ui.number(label="Number of keys to generate:", value="5")
-    k_input = ui.number(label="Threshold to unlock secret:", value="3")
+    with ui.splitter() as splitter:
+        with splitter.before:
+            n_input = ui.number(label="Number of keys to generate:", value="5")
+        with splitter.after:
+            k_input = ui.number(label="Threshold to unlock secret:", value="3")
+    
     ui.button(text="Enter", on_click=handle_generate)
     md = ui.markdown("")
 
