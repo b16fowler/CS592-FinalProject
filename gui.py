@@ -15,6 +15,10 @@ def gui():
 
         reconstruct()
 
+    def handle_reconstruct():
+        for i in x_inputs:
+            print(x_inputs[i].value)
+
     def show_shares():
         polynomial, shares = generate.generate_polynomial(int(n_input.value), int(k_input.value))
         
@@ -27,14 +31,19 @@ def gui():
             ui.markdown(content=share)
 
     # ui for entering share info to reconstruct secret
+    x_inputs = {}
+    y_inputs = {}
     def reconstruct():
-        # Create entry box for each k
-        for i in range(len(k_input.value)):
+        # Create entry box for each share, k
+        for i in range(int(k_input.value)):
+            ui.markdown(f"Share #{i + 1}:")
             with ui.splitter() as splitter:
                 with splitter.before:
-                    ui.number(label=f"**Share #{i + 1}:** Enter x value")
+                    x_inputs[i] = ui.number(label=f"x value", value=i)
                 with splitter.after:
-                    ui.number(label=f"Enter y value")
+                    y_inputs[i] = ui.number(label=f"y value")
+        ui.button(text="Submit", on_click=handle_reconstruct)
+
 
     # Heading
     ui.label("Shamir Secret Sharing Key Generator")
