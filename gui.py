@@ -16,8 +16,16 @@ def gui():
         reconstruct()
 
     def handle_reconstruct():
-        for i in x_inputs:
-            print(x_inputs[i].value)
+        # Keep all inputs in list of tuples
+        inputs = []
+        for i in range(len(x_inputs)):
+            inputs.append((x_inputs[i].value, y_inputs[i].value))
+
+        # Reconstruct Lagrange polynomials
+        for i, (xi, yi) in enumerate(inputs):
+            print(i, flush=True)
+            print(f"({xi}, {yi})", flush=True)
+            # compute_L(i)
 
     def show_shares():
         polynomial, shares = generate.generate_polynomial(int(n_input.value), int(k_input.value))
@@ -30,6 +38,10 @@ def gui():
             share = f"**Share #{i + 1}**\n\n({shares[i][0]}, {shares[i][1]})"
             ui.markdown(content=share)
 
+    def compute_L(i):
+        # Takes index of inputs as parameter to calculate Lagrange coefficient
+        pass
+
     # ui for entering share info to reconstruct secret
     x_inputs = {}
     y_inputs = {}
@@ -41,7 +53,7 @@ def gui():
                 with splitter.before:
                     x_inputs[i] = ui.number(label=f"x value", value=i)
                 with splitter.after:
-                    y_inputs[i] = ui.number(label=f"y value")
+                    y_inputs[i] = ui.number(label=f"y value", value=0)
         ui.button(text="Submit", on_click=handle_reconstruct)
 
 
@@ -51,7 +63,7 @@ def gui():
     # Input boxes for n and k
     with ui.splitter() as splitter:
         with splitter.before:
-            n_input = ui.number(label="Number of keys to generate:", value="5")
+            n_input = ui.number(label="Keys to generate:", value="5")
         with splitter.after:
             k_input = ui.number(label="Threshold to unlock secret:", value="3")
     
@@ -59,4 +71,4 @@ def gui():
     md = ui.markdown("")
 
     # Run
-    ui.run()
+    ui.run(dark=True)
