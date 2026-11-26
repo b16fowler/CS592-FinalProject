@@ -36,22 +36,3 @@ def generate_polynomial(n, k):
         shares.append((i, y))
 
     return polynomial, shares
-
-# TODO: implement later
-def retrieve_secret(shares):
-    # Reconstruct secret using k shares
-
-    # TODO: Remove fixed shares from  Wiki example
-    (x1, y1) = (2, 1942); (x2, y2) = (4, 3402); (x3, y3) = (5, 4414)
-
-    # Using (x1, y1), (x2, y2) and (x3, y3) for Lagrange basis polynomials
-    l1 = expand((x - x2)/(x1 - x2)*(x - x3)/(x1 - x3))    
-    l2 = expand((x - x1)/(x2 - x1)*(x - x3)/(x2 - x3))
-    l3 = expand((x - x1)/(x3 - x1)*(x - x2)/(x3 - x2))
-
-    # Use formulafor polynomial interpolation
-    # f(x) = y1*l1(x) + y2*l2(x) + y2*l2(x)
-    fx = simplify(y1 * (l1) + y2 * (l2) + y3 * (l3))
-
-    # x^0 coefficient is the secret
-    return fx.coeff(x, 0)
