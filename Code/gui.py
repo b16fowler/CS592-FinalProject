@@ -2,7 +2,7 @@
 # File containing gui stuff
 #######################################################################
 
-import generate
+import generate as generate
 from nicegui import ui
 import sympy as sp
 from sympy import *
